@@ -3,8 +3,10 @@ const IN_CONTAINER = JSON.parse(process.env.IN_CONTAINER.toLowerCase());
  within the container*/
 const DEV_HOST = IN_CONTAINER ? "0.0.0.0" : "localhost";
 const DEV_PORT = process.env.DEV_PORT || 8080;
-const API_HOST = process.env.API_HOST;
-const API_PORT = parseInt(process.env.API_PORT) || 8081;
+const COUCHDB_USER = process.env.COUCHDB_USER;
+const COUCHDB_PASSWORD = process.env.COUCHDB_PASSWORD;
+const COUCHDB_HOST = process.env.COUCHDB_HOST;
+const COUCHDB_PORT = process.env.COUCHDB_PORT;
 
 module.exports = {
   configureWebpack: {
@@ -15,11 +17,11 @@ module.exports = {
       // if port is in use, a free one will be determined
       proxy: {
         // proxy all requests
-        "/api": {
-          target: `${API_HOST}:${API_PORT}`,
+        "/couchdb": {
+          target: `http://${COUCHDB_USER}:${COUCHDB_PASSWORD}@${COUCHDB_HOST}:${COUCHDB_PORT}`,
           changeOrigin: true,
           pathRewrite: {
-            "^/api": ""
+            "^/couchdb": ""
           }
         }
       }
