@@ -13,9 +13,13 @@ services:
         max-size: "200k"
         max-file: "10"
     ports:
-      - 5984:${COUCHDB_PORT}
+      - ${COUCHDB_PORT}:${COUCHDB_PORT}
     restart: always
     volumes:
       - type: volume
         source: couchdb-data
         target: /opt/couchdb/data
+
+volumes:
+  couchdb-data:
+    driver: local
