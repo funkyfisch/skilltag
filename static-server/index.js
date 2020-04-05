@@ -24,7 +24,8 @@ app.use('/api', createProxyMiddleware({
   auth: `${API_USER}:${API_PASSWORD}`,
   changeOrigin: true,
   pathRewrite: {
-    '^/api/' : '/'
+    "^/api" : ""
   }
 }));
+console.log(`App listening at port: ${UI_PORT}`)
 app.listen(UI_PORT);

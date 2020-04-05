@@ -1,6 +1,7 @@
 version: "3.2"
 
 services:
+
   couchdb:
     container_name: couchdb
     environment:
@@ -19,6 +20,31 @@ services:
       - type: volume
         source: couchdb-data
         target: /opt/couchdb/data
+
+  ui:
+    container_name: ui
+    environment:
+      - UI_PORT
+      - IN_CONTAINER
+      - NODE_ENV=${NODE_ENV}
+      - API_HOST=${COUCHDB_HOST}
+      - API_PORT=${COUCHDB_PORT}
+      - API_USER=${COUCHDB_USER}
+      - API_PASSWORD=${COUCHDB_PASSWORD}
+    build:
+      context: .
+      dockerfile: ui/Dockerfile
+      args:
+        - IN_CONTAINER=${IN_CONTAINER}
+    depends_on:
+      - couchdb
+    logging:
+      options:
+        max-size: "200k"
+        max-file: "10"
+    ports:
+      - ${UI_PORT}:${UI_PORT}
+
 
 volumes:
   couchdb-data:

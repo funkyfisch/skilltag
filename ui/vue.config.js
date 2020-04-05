@@ -1,6 +1,6 @@
-const IN_CONTAINER = JSON.parse(process.env.IN_CONTAINER.toLowerCase());
 /* If running inside Docker, using 0.0.0.0 will fix the problem of how to serve
- within the container*/
+ within the container. */
+const IN_CONTAINER = JSON.parse(process.env.IN_CONTAINER.toLowerCase());
 const DEV_HOST = IN_CONTAINER ? "0.0.0.0" : "localhost";
 const DEV_PORT = process.env.DEV_PORT || 8080;
 const COUCHDB_USER = process.env.COUCHDB_USER;
