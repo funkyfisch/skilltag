@@ -18,7 +18,9 @@ module.exports = {
       proxy: {
         // proxy all requests
         "/couchdb": {
-          target: `http://${COUCHDB_USER}:${COUCHDB_PASSWORD}@${COUCHDB_HOST}:${COUCHDB_PORT}`,
+          logLevel: "info",
+          target: `http://${COUCHDB_HOST}:${COUCHDB_PORT}`,
+          auth: `${COUCHDB_USER}:${COUCHDB_PASSWORD}`,
           changeOrigin: true,
           pathRewrite: {
             "^/couchdb": ""

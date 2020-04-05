@@ -1,6 +1,7 @@
 import Vue from "vue";
 import Buefy from "buefy";
 import Vuebar from "vuebar";
+import VueCookie from "vue-cookie";
 import App from "./App.vue";
 import router from "./router";
 import store from "./store";
@@ -14,6 +15,7 @@ Vue.use(Buefy, {
   defaultContainerElement: "#app"
 });
 Vue.use(Vuebar);
+Vue.use(VueCookie);
 
 new Vue({
   router,

@@ -1,96 +1,34 @@
+import axios from "axios";
+
+const createDatabase = async databaseName => {
+  try {
+    await axios.put("/couchdb/bios");
+  } catch (e) {
+    console.log(JSON.stringify(e));
+    console.log(`Could not create ${databaseName} database`);
+  }
+};
+
 export default {
   getBios: async () => {
-    return [
-      {
-        name: "Ioannis Gkikas",
-        tags: ["continuous integration", "python", "c++ developer", "android"],
-        id: "1"
-      },
-      {
-        name: "Elpida Boulasiki",
-        tags: ["UI Design", "UX Design", "Adobe Suite", "Bio-tech"],
-        id: "2"
-      },
-      {
-        name: "John Smith",
-        tags: ["c++ developer", "embedded developer", "linux developer"],
-        id: "3"
-      },
-      {
-        name: "Ioannis Gkikas",
-        tags: ["continuous integration", "python", "c++ developer", "android"],
-        id: "4"
-      },
-      {
-        name: "Elpida Boulasiki",
-        tags: ["UI Design", "UX Design", "Adobe Suite", "Bio-tech"],
-        id: "5"
-      },
-      {
-        name: "John Smith",
-        tags: ["c++ developer", "embedded developer", "linux developer"],
-        id: "6"
-      },
-      {
-        name: "Ioannis Gkikas",
-        tags: ["continuous integration", "python", "c++ developer", "android"],
-        id: "7"
-      },
-      {
-        name: "Elpida Boulasiki",
-        tags: ["UI Design", "UX Design", "Adobe Suite", "Bio-tech"],
-        id: "8"
-      },
-      {
-        name: "John Smith",
-        tags: ["c++ developer", "embedded developer", "linux developer"],
-        id: "9"
-      },
-      {
-        name: "Ioannis Gkikas",
-        tags: ["continuous integration", "python", "c++ developer", "android"],
-        id: "10"
-      },
-      {
-        name: "Elpida Boulasiki",
-        tags: ["UI Design", "UX Design", "Adobe Suite", "Bio-tech"],
-        id: "11"
-      },
-      {
-        name: "John Smith",
-        tags: ["c++ developer", "embedded developer", "linux developer"],
-        id: "12"
-      },
-      {
-        name: "Ioannis Gkikas",
-        tags: ["continuous integration", "python", "c++ developer", "android"],
-        id: "13"
-      },
-      {
-        name: "Elpida Boulasiki",
-        tags: ["UI Design", "UX Design", "Adobe Suite", "Bio-tech"],
-        id: "14"
-      },
-      {
-        name: "John Smith",
-        tags: ["c++ developer", "embedded developer", "linux developer"],
-        id: "15"
-      },
-      {
-        name: "Ioannis Gkikas",
-        tags: ["continuous integration", "python", "c++ developer", "android"],
-        id: "16"
-      },
-      {
-        name: "Elpida Boulasiki",
-        tags: ["UI Design", "UX Design", "Adobe Suite", "Bio-tech"],
-        id: "17"
-      },
-      {
-        name: "John Smith",
-        tags: ["c++ developer", "embedded developer", "linux developer"],
-        id: "18"
+    try {
+      const response = await axios.post(
+        "/couchdb/bios/_all_docs?include_docs=true",
+        { "Content-Type": "application/json" }
+      );
+
+      let bios = [];
+      for (const result of response.data.rows) {
+        result.doc.id = result.id;
+        bios.push(result.doc);
       }
-    ];
+
+      return bios;
+    } catch (e) {
+      if (e.message === "Request failed with status code 404") {
+        await createDatabase("bios");
+      }
+      return [];
+    }
   }
 };
