@@ -17,13 +17,13 @@ module.exports = {
       // if port is in use, a free one will be determined
       proxy: {
         // proxy all requests
-        "/couchdb": {
+        "/api": {
           logLevel: "info",
           target: `http://${COUCHDB_HOST}:${COUCHDB_PORT}`,
           auth: `${COUCHDB_USER}:${COUCHDB_PASSWORD}`,
           changeOrigin: true,
           pathRewrite: {
-            "^/couchdb": ""
+            "^/api": ""
           }
         }
       }
