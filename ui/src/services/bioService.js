@@ -29,8 +29,19 @@ export default {
         await createDatabase("bios");
         return [];
       } else {
-        throw new Error("Could not connect to database!")
+        throw new Error("Could not connect to database!");
       }
+    }
+  },
+  createNewBio: async (fullname, email, tags) => {
+    try {
+      await axios.put(`/api/bios/${email}`, {
+        fullname: fullname,
+        email: email,
+        tags: tags
+      });
+    } catch (error) {
+      throw new Error(error.message);
     }
   }
 };

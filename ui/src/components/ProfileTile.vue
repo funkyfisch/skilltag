@@ -1,8 +1,10 @@
 <template>
   <div class="card">
-    <div class="card-header">
-      <p class="card-header-title">{{ fullName }}</p>
+    <div class="card-content">
+      <p class="title is-4">{{ fullname }}</p>
+      <p class="subtitle is-6">{{ email }}</p>
     </div>
+
     <div class="card-content">
       <b-taglist class="content">
         <b-tag v-for="(tag, index) in this.tags" :key="index" type="is-primary">
@@ -16,7 +18,7 @@
 <script>
 export default {
   name: "ProfileTile",
-  props: ["fullName", "tags"]
+  props: ["fullname", "email", "tags"]
 };
 </script>
 

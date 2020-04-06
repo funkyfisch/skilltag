@@ -4,10 +4,28 @@
       <div class="container">
         <div class="columns">
           <div class="column">
-            <b-loading :active="isLoading"></b-loading>
+            <b-loading :active="isLoading" />
             <b-field grouped>
-              <b-input placeholder="Search..." expanded v-model="searchText">
+              <b-input
+                placeholder="Search for skills and titles, e.g. 'Mechanical Engineer', 'Project management', 'C\C++'"
+                expanded
+                v-model="searchText"
+              >
               </b-input>
+              <div class="buttons">
+                <b-button
+                  icon-left="sync-alt"
+                  type="is-primary"
+                  @click="refreshList()"
+                />
+                <b-button
+                  icon-left="plus"
+                  type="is-primary"
+                  @click="isModalActive = true"
+                >
+                  Add Member
+                </b-button>
+              </div>
             </b-field>
           </div>
         </div>
@@ -17,29 +35,45 @@
             <div class="columns is-multiline is-vcentered" id="results">
               <div
                 v-for="bio in this.searchResult"
-                :key="bio.id"
+                :key="bio.email"
                 class="column is-3"
               >
-                <profile-tile :fullName="bio.name" :tags="bio.tags" />
+                <profile-tile
+                  :fullname="bio.fullname"
+                  :email="bio.email"
+                  :tags="bio.tags"
+                />
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <b-modal
+      :active.sync="isModalActive"
+      has-modal-card
+      trap-focus
+      aria-role="dialog"
+      aria-modal
+    >
+      <new-bio-modal />
+    </b-modal>
   </div>
 </template>
 
 <script>
 import _ from "lodash";
 import matchSorter from "match-sorter";
+
 import ProfileTile from "@/components/ProfileTile.vue";
+import NewBioModal from "@/components/NewBioModal.vue";
 import bioService from "@/services/bioService.js";
 
 export default {
   name: "home",
   components: {
-    ProfileTile
+    ProfileTile,
+    NewBioModal
   },
   watch: {
     searchText: function() {
@@ -68,6 +102,7 @@ export default {
       try {
         this.isLoading = true;
         this.bios = await bioService.getBios();
+        console.log(this.bios);
       } catch (error) {
         this.$buefy.notification.open({
           duration: 3000,
@@ -79,6 +114,10 @@ export default {
       } finally {
         this.isLoading = false;
       }
+    },
+    refreshList: async function() {
+      await this.getBios();
+      await this.getDebouncedSearchResults();
     }
   },
   data() {
@@ -86,7 +125,8 @@ export default {
       searchText: "",
       searchResult: "",
       bios: [],
-      isLoading: false
+      isLoading: false,
+      isModalActive: false
     };
   }
 };
