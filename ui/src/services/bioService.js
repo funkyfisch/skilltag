@@ -27,8 +27,10 @@ export default {
     } catch (e) {
       if (e.message === "Request failed with status code 404") {
         await createDatabase("bios");
+        return [];
+      } else {
+        throw new Error("Could not connect to database!")
       }
-      return [];
     }
   }
 };

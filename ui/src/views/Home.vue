@@ -4,6 +4,7 @@
       <div class="container">
         <div class="columns">
           <div class="column">
+            <b-loading :active="isLoading"></b-loading>
             <b-field grouped>
               <b-input placeholder="Search..." expanded v-model="searchText">
               </b-input>
@@ -64,14 +65,28 @@ export default {
       }
     },
     getBios: async function() {
-      this.bios = await bioService.getBios();
+      try {
+        this.isLoading = true;
+        this.bios = await bioService.getBios();
+      } catch (error) {
+        this.$buefy.notification.open({
+          duration: 3000,
+          message: `${error.message}`,
+          position: "is-bottom-right",
+          type: "is-danger",
+          hasIcon: false
+        });
+      } finally {
+        this.isLoading = false;
+      }
     }
   },
   data() {
     return {
       searchText: "",
       searchResult: "",
-      bios: []
+      bios: [],
+      isLoading: false
     };
   }
 };
