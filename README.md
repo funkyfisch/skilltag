@@ -81,7 +81,7 @@ A possibility to develop within Docker is to be added in the future.
 
 ### Setup the environment variables
 
-The variables mentioned [in here](#edit-and-source-the-.env-file...) need to be
+The variables mentioned [in here](#edit-and-source-the-env-file) need to be
 defined to your liking, and thats how you have your development environment
 ready. Your development app will be listening on localhost:UI_PORT and you
 can connect it to either a local couchdb instance or a remote by setting
