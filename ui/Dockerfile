@@ -4,10 +4,7 @@ FROM node:lts-alpine
 ARG IN_CONTAINER
 ENV IN_CONTAINER $IN_CONTAINER
 
-# Add static server code and install dependencies
-WORKDIR /app
-COPY static-server/* ./
-RUN npm install
+RUN npm install -g static-frontend-server@0.6.0
 
 # Add frontend package and install dependencies
 WORKDIR /app/uicode
@@ -18,9 +15,10 @@ RUN npm install
 COPY ui .
 RUN npm run build
 
-# Move the built files into the static-server, and cleanup the rest
+# Move the built files into the static-server
 WORKDIR /app
 RUN cp -R ./uicode/dist ./dist \
-      && rm -rf ./src
+      && cp ./uicode/apiConfiguration.json ./apiConfiguration.json \
+      && rm -rf ./uicode
 
-CMD ["npm", "run", "start"]
+CMD ["static-frontend-server", "--api-config", "apiConfiguration.json"]

@@ -26,11 +26,11 @@ services:
     environment:
       - UI_PORT
       - IN_CONTAINER
-      - NODE_ENV=${NODE_ENV}
-      - API_HOST=${COUCHDB_HOST}
-      - API_PORT=${COUCHDB_PORT}
-      - API_USER=${COUCHDB_USER}
-      - API_PASSWORD=${COUCHDB_PASSWORD}
+      - NODE_ENV
+      - COUCHDB_HOST
+      - COUCHDB_PORT
+      - COUCHDB_USER
+      - COUCHDB_PASSWORD
     build:
       context: .
       dockerfile: ui/Dockerfile

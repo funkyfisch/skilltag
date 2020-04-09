@@ -1,0 +1,12 @@
+{
+    "endpoints": [
+      {
+        "endpointString": "/api",
+        "host": "COUCHDB_HOST",
+        "port": "COUCHDB_PORT",
+        "authentication": true,
+        "username": "COUCHDB_USER",
+        "password": "COUCHDB_PASSWORD"
+      }
+    ]
+  }
