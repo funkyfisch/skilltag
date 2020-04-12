@@ -3,3 +3,10 @@
 **/package-lock.json
 **/yarn.lock.json
 docker/*
+heroku.yml
+docker-compose.yml
+LICENSE
+README.md
+.env
+.gitignore
+**/tests

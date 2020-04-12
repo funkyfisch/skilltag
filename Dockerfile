@@ -8,11 +8,11 @@ RUN npm install -g static-frontend-server@0.6.0
 
 # Add frontend package and install dependencies
 WORKDIR /app/uicode
-COPY ui/package*.json .
+COPY package*.json ./
 RUN npm install
 
 # Add frontend code separately and build
-COPY ui .
+COPY . ./
 RUN npm run build
 
 # Move the built files into the static-server

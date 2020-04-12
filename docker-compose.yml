@@ -33,7 +33,7 @@ services:
       - COUCHDB_PASSWORD
     build:
       context: .
-      dockerfile: ui/Dockerfile
+      dockerfile: Dockerfile
       args:
         - IN_CONTAINER=${IN_CONTAINER}
     depends_on:
