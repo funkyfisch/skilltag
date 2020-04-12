@@ -43,5 +43,18 @@ export default {
     } catch (error) {
       throw new Error(error.message);
     }
+  },
+  updateBio: async (fullname, email, tags) => {
+    try {
+      const response = await axios.get(`/api/bios/${email}`);
+      await axios.put(`/api/bios/${email}`, {
+        fullname: fullname,
+        email: email,
+        tags: tags,
+        _rev: response.data._rev
+      });
+    } catch (error) {
+      throw new Error(error.message);
+    }
   }
 };

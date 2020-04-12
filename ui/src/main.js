@@ -6,7 +6,10 @@ import {
   faPlus,
   faTag,
   faExclamationCircle,
-  faSyncAlt
+  faSyncAlt,
+  faEdit,
+  faCheck,
+  faTimes
 } from "@fortawesome/free-solid-svg-icons";
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
@@ -17,7 +20,16 @@ import store from "./store";
 import "./registerServiceWorker";
 import "buefy/dist/buefy.css";
 
-library.add(faPlus, faTag, faExclamationCircle, faSyncAlt);
+library.add(
+  faPlus,
+  faTag,
+  faExclamationCircle,
+  faSyncAlt,
+  faEdit,
+  faCheck,
+  faTimes
+);
+
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 Vue.config.productionTip = false;

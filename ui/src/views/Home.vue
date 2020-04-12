@@ -39,9 +39,22 @@
                 class="column is-3"
               >
                 <profile-tile
+                  v-if="!bio.isEditingActive"
                   :fullname="bio.fullname"
                   :email="bio.email"
                   :tags="bio.tags"
+                  v-on:startEdit="onStartEditReceived(bio.email)"
+                />
+                <edit-profile-tile
+                  v-else
+                  :fullname="bio.fullname"
+                  :email="bio.email"
+                  :tags="bio.tags"
+                  :ref="bio.email"
+                  v-on:saveAndEndEdit="
+                    newBio => onSaveAndEndEditReceived(bio.email, newBio)
+                  "
+                  v-on:cancelAndEndEdit="onCancelAndEndEditReceived(bio.email)"
                 />
               </div>
             </div>
@@ -66,6 +79,7 @@ import _ from "lodash";
 import matchSorter from "match-sorter";
 
 import ProfileTile from "@/components/ProfileTile.vue";
+import EditProfileTile from "@/components/EditProfileTile.vue";
 import NewBioModal from "@/components/NewBioModal.vue";
 import bioService from "@/services/bioService.js";
 
@@ -73,6 +87,7 @@ export default {
   name: "home",
   components: {
     ProfileTile,
+    EditProfileTile,
     NewBioModal
   },
   watch: {
@@ -88,6 +103,56 @@ export default {
     this.getDebouncedSearchResults();
   },
   methods: {
+    biosEqual: function(oldBio, newBio) {
+      return (
+        oldBio.fullname === newBio.fullname &&
+        oldBio.email === newBio.email &&
+        oldBio.tags
+          .sort()
+          .every((tag, index) => tag === newBio.tags.sort()[index])
+      );
+    },
+    onStartEditReceived: function(email) {
+      const bioToEditIndex = this.bios.findIndex(b => b.email === email);
+      const bioToEdit = this.bios[bioToEditIndex];
+      bioToEdit.isEditingActive = true;
+      this.bios[bioToEditIndex] = bioToEdit;
+      this.bios.splice();
+    },
+    onCancelAndEndEditReceived: function(email) {
+      const oldBioIndex = this.bios.findIndex(b => b.email === email);
+      const oldBio = this.bios[oldBioIndex];
+      oldBio.isEditingActive = false;
+      this.bios[oldBioIndex] = oldBio;
+      this.bios.splice();
+    },
+    onSaveAndEndEditReceived: async function(email, newBio) {
+      const oldBioIndex = this.bios.findIndex(b => b.email === email);
+      const oldBio = this.bios[oldBioIndex];
+      if (this.biosEqual(oldBio, newBio)) {
+        oldBio.isEditingActive = false;
+        this.bios[oldBioIndex] = oldBio;
+      } else {
+        try {
+          await bioService.updateBio(
+            newBio.fullname,
+            newBio.email,
+            newBio.tags
+          );
+          newBio.isEditingActive = false;
+          Object.assign(this.bios[oldBioIndex], newBio);
+          this.bios.splice();
+        } catch (error) {
+          this.$buefy.notification.open({
+            duration: 1500,
+            message: `Failed to edit bio for ${newBio.email}`,
+            position: "is-bottom-right",
+            type: "is-danger",
+            hasIcon: false
+          });
+        }
+      }
+    },
     getSearchResults: function() {
       if (this.searchText === "") this.searchResult = this.bios;
       else {
@@ -102,7 +167,6 @@ export default {
       try {
         this.isLoading = true;
         this.bios = await bioService.getBios();
-        console.log(this.bios);
       } catch (error) {
         this.$buefy.notification.open({
           duration: 3000,

@@ -1,8 +1,18 @@
 <template>
-  <div class="card">
+  <div class="card" @mouseover="isActive = true" @mouseleave="isActive = false">
     <div class="card-content">
-      <p class="title is-4">{{ fullname }}</p>
-      <p class="subtitle is-6">{{ email }}</p>
+      <b-button
+        v-show="isActive"
+        @click="$emit('startEdit')"
+        inverted
+        type="is-primary"
+        class="is-pulled-right"
+        icon-right="edit"
+      />
+      <div class="block">
+        <p class="title is-4">{{ fullname }}</p>
+        <p class="subtitle is-6">{{ email }}</p>
+      </div>
     </div>
 
     <div class="card-content">
@@ -18,7 +28,12 @@
 <script>
 export default {
   name: "ProfileTile",
-  props: ["fullname", "email", "tags"]
+  props: ["fullname", "email", "tags"],
+  data() {
+    return {
+      isActive: false
+    };
+  }
 };
 </script>
 
