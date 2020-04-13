@@ -51,5 +51,4 @@ jobs:
     steps:
       - attach_workspace:
           at: .
-      - run: ls -la
       - run: npm run test:unit
