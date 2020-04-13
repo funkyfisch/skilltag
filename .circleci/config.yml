@@ -49,4 +49,5 @@ jobs:
     steps:
       - attach_workspace:
           at: ~/skilltag
+      - run: ls -la; cd ../ && ls -la
       - run: npm run test:unit
