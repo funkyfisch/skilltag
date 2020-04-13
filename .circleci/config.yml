@@ -32,7 +32,9 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: v1-npm-{{ checksum "package-lock.json" }}
+          keys:
+            - v1-npm-deps-{{ checksum "package-lock.json" }}
+            - v1-npm-deps-
       - run: npm install
       - persist_to_workspace:
           root: .
