@@ -28,14 +28,16 @@ jobs:
   build:
     docker:
       - image: circleci/node:lts
-    working_directory: ~/skilltag
+    working_directory: ~/
     steps:
       - checkout
-      - attach_workspace:
-          at: ~/skilltag
       - restore_cache:
           key: v1-npm-{{ checksum "package-lock.json" }}
       - run: npm install
+      - persist_to_workspace:
+          root: .
+          paths:
+            - ./node_modules
       - save_cache:
           paths:
             - ./node_modules
@@ -45,9 +47,9 @@ jobs:
   unit-test:
     docker:
       - image: circleci/node:lts
-    working_directory: ~/skilltag
+    working_directory: ~/
     steps:
       - attach_workspace:
-          at: ~/skilltag
+          at: ~/
       - run: ls -la; cd ../ && ls -la
       - run: npm run test:unit
