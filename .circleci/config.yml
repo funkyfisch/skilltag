@@ -11,3 +11,42 @@ workflows:
             branches:
               only: master
 
+  on-pull-request-update:
+    jobs:
+      - build:
+          filters:
+            branches:
+              ignore: master
+      - test:
+          requires:
+            - build
+          filters:
+            branches:
+              ignore: master
+
+jobs:
+  build:
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/skilltag
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/skilltag
+      - restore_cache:
+          key: v1-npm-{{ checksum "package-lock.json" }}
+      - run: npm install
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: v1-npm-{{ checksum "package-lock.json" }}
+      - run: npm run build
+
+  unit-test:
+    docker:
+      - image: circleci/node:lts
+    working_directory: ~/skilltag
+    steps:
+      - attach_workspace:
+          at: ~/skilltag
+      - run: npm run test:unit
