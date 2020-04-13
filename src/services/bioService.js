@@ -4,8 +4,6 @@ const createDatabase = async databaseName => {
   try {
     await axios.put("/api/bios");
   } catch (e) {
-    console.log(JSON.stringify(e));
-    console.log(`Could not create ${databaseName} database`);
   }
 };
 
