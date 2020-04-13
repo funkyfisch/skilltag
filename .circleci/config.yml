@@ -17,7 +17,7 @@ workflows:
           filters:
             branches:
               ignore: master
-      - test:
+      - unit-test:
           requires:
             - build
           filters:
