@@ -31,7 +31,9 @@
         </div>
 
         <div class="columns">
+
           <div class="column" style="padding: 1.50rem">
+
             <div class="columns is-multiline is-vcentered" id="results">
               <div
                 v-for="bio in this.searchResult"
@@ -58,7 +60,9 @@
                 />
               </div>
             </div>
+
           </div>
+          
         </div>
       </div>
     </div>
