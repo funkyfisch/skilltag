@@ -99,8 +99,14 @@ export default {
     this.getBios();
   },
   mounted: function() {
+    let elHtml = document.getElementsByTagName("html")[0];
+    elHtml.style.overflowY = "hidden";
     this.getDebouncedSearchResults = _.debounce(this.getSearchResults, 300);
     this.getDebouncedSearchResults();
+  },
+  destroyed: function() {
+    let elHtml = document.getElementsByTagName("html")[0];
+    elHtml.style.overflowY = null;
   },
   methods: {
     biosEqual: function(oldBio, newBio) {
