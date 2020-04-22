@@ -2,7 +2,7 @@
  within the container. */
 const IN_CONTAINER = JSON.parse(process.env.IN_CONTAINER.toLowerCase());
 const DEV_HOST = IN_CONTAINER ? "0.0.0.0" : "localhost";
-const DEV_PORT = process.env.DEV_PORT || 8080;
+const DEV_PORT = process.env.UI_PORT || process.env.PORT || 8080;
 const COUCHDB_USER = process.env.COUCHDB_USER;
 const COUCHDB_PASSWORD = process.env.COUCHDB_PASSWORD;
 const COUCHDB_HOST = process.env.COUCHDB_HOST;
