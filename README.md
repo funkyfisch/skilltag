@@ -1,7 +1,11 @@
 # skilltag
 
+[![funkyfisch](https://circleci.com/gh/funkyfisch/skilltag.svg?style=shield)](https://circleci.com/gh/funkyfisch/skilltag?branch=master)
+
 A web application to keep track of members of your community/organization, and
 quickly find the right person for the job at any time.
+
+[Live Demo](https://skilltag-demo.herokuapp.com)
 
 ## Description
 
