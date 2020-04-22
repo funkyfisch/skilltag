@@ -4,7 +4,7 @@ FROM node:lts-alpine
 ARG IN_CONTAINER
 ENV IN_CONTAINER $IN_CONTAINER
 
-RUN npm install -g static-frontend-server@0.6.0
+RUN npm install -g static-frontend-server@0.6.4
 
 # Add frontend package and install dependencies
 WORKDIR /app/uicode

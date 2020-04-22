@@ -97,12 +97,12 @@ export default {
   },
   created: function() {
     this.getBios();
+    this.getDebouncedSearchResults = _.debounce(this.getSearchResults, 300);
+    this.getDebouncedSearchResults();
   },
   mounted: function() {
     let elHtml = document.getElementsByTagName("html")[0];
     elHtml.style.overflowY = "hidden";
-    this.getDebouncedSearchResults = _.debounce(this.getSearchResults, 300);
-    this.getDebouncedSearchResults();
   },
   destroyed: function() {
     let elHtml = document.getElementsByTagName("html")[0];
