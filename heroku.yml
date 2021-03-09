@@ -1,8 +1,0 @@
-build:
-  docker:
-    web: Dockerfile
-  config:
-    IN_CONTAINER: true
-
-run:
-  web: export UI_PORT=$PORT && static-frontend-server --api-config apiConfiguration.json
