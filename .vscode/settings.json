@@ -5,7 +5,13 @@
     "javascript",
     "javascriptreact",
     "typescript",
-    "typescriptreact"
+    "typescriptreact",
+    "json"
   ],
-  "typescript.tsdk": "node_modules/typescript/lib"
+  "eslint.enable": true,
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.codeActionsOnSave": {
+    "source.fixAll": true
+  },
+  "eslint.format.enable": true,
 }
